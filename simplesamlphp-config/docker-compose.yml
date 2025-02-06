@@ -1,0 +1,7 @@
+ersion: '3.8'
+services:
+  php-apache:
+    build: .
+    ports:
+      - "80:80"
+    network_mode: "host"
