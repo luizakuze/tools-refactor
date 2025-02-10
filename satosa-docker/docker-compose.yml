@@ -1,0 +1,10 @@
+services:
+  satosa:
+    container_name: satosa
+    image: satosa:8.4.0
+    restart: always
+    entrypoint: ["/usr/local/bin/docker-entrypoint.sh", "--bind", "0.0.0.0:3443", "--certfile", "/etc/satosa/https.crt", "--keyfile", "/etc/satosa/https.key", "satosa.wsgi:app"]
+    env_file:
+      - .satosa_env
+    volumes:
+      - ./volumes:/etc/satosa
