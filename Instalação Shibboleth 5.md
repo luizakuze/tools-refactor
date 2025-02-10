@@ -410,6 +410,8 @@ Header set Cache-Control "max-age=300, public"
   ## Possíveis problemas e soluções
 **Permissões**: Caso o IdP tenha algum problema de renderizar alguma página, primeiro suspeite das permissões de diretório do IdP, uma alternativa é alterar a permissão de grupo de um diretório específico para “jetty:jetty”. Os diretórios: **credentials, logs e metadata** precisam ser do usuário jetty. Demais permissões em 644.  Já no diretório **credentials** os arquivos têm permissões diferentes, alguns necessitam 600.
 
+![Terminal](./assets/idp5/1-idp5.png "Terminal")
+
  **Oferta de atributos**: Para oferta de atributos, confira em [definições de atributos](https://shibboleth.atlassian.net/wiki/spaces/IDP5/pages/3199502907/AttributeDefinitionConfiguration)  caso algum atributo  (que antes ofertado por uma versão anterior do Shibboleth) não esteja funcional. Isso pode ocorrer devido à atualização do Shibboleth e algumas definições que foram alteradas.
   Ainda neste tópico, caso seja utilizado um script no attribute-resolver, pode ser que o seguinte problema ocorra:
   ```bash

@@ -8,6 +8,8 @@ O simpleSAMLphp (SSP) é uma solução para autenticação com foco em oferecer 
 
 Além de atuar como SP ou IdP, o SimpleSAMLphp possui alguns recursos avançados que podem ser configurados. Um desses recursos é a funcionalidade de atuar como um Proxy SAML (IdP/SP), que pode ser entendido como uma ponte entre SPs e IdPs, conforme apresentado na Figura 1. Para essa opção, a configuração é feita utilizando o IdP e o SP conectados juntos. Esse documento descreve como instalar o SSP e configurá-lo para utilizar como IdP *Proxy* (*Proxy* SAML).
 
+![Figura](./assets/ssp/ssp-1.png "Figura")
+
 ## Requisitos
 
 ### Ambiente
@@ -47,6 +49,7 @@ A seguir estão descritos os processos de instalação do Apache no Ubuntu (**ap
 3. No Ubuntu o serviço inicia automaticamente. Verifique o status executando.
 
    `sudo systemctl status apache2`
+   ![Figura](./assets/ssp/ssp-2.png "Figura")
 
 ### PHP
 
@@ -174,6 +177,7 @@ Em caso de sucesso será apresentada a mensagem de Syntax OK.
 ##### Testar instalação
 
 Acesse o serviço via navegador através da URL https://**service.example.com**, substituindo o FQDN pelo do servidor utilizado.
+![Figura](./assets/ssp/ssp-3.png "Figura")
 
 #### Configuração do SSP
 
@@ -218,6 +222,7 @@ Acesse o serviço via navegador através da URL https://**service.example.com**,
    3. Realize o teste das configurações efetuadas no item anterior executando os seguintes passos:
       1. Acesse a página de instalação do SSP via navegador através da URL https://service.example.com/admin, substituindo o FQDN pelo do servidor utilizado. Digite as credenciais de admin
       2. Clique em Test.
+      ![Figura](./assets/ssp/ssp-4.png "Figura")
 
 > [!NOTE]
 >
@@ -554,19 +559,23 @@ $config = [
 1. Acesse a página de admin do SSP via navegador através da URL **https://service.example.com/admin**, substituindo o FQDN pelo do servidor utilizado. Digite as credenciais.
 
 2. Clique na aba Configuração e no link Cron module information page.
+![Figura](./assets/ssp/ssp-5.png "Figura")
 
-3. Na página seguinte (resultados do Cron) copie a configuração do Cron de acordo com a periodicidade configurada no arquivo **config-metarefresh.php**.
+3. Na página seguinte (resultados do Cron) copie a configuração do Cron de acordo com a periodicidade configurada no arquivo 
+![Figura](./assets/ssp/ssp-6.png "Figura")
+   
+**config-metarefresh.php**.
 
-4. Adicione a configuração no crontab do usuário do Apache editando o arquivo com o seguinte comando:
+1. Adicione a configuração no crontab do usuário do Apache editando o arquivo com o seguinte comando:
 
    `sudo crontab -e -u www-data`
 
    Insira a configuração copiada.
 
-5. Execute a tarefa agendada via navegador para efetuar o download do metadado uma primeira vez. Essa etapa é necessária quando a periodicidade for diferente de **frequent**.
+2. Execute a tarefa agendada via navegador para efetuar o download do metadado uma primeira vez. Essa etapa é necessária quando a periodicidade for diferente de **frequent**.
 
    1. Ainda na página resultados do Cron e logado como administrador (etapas 1, 2 e 3) clique no link Executar cron [hourly].
-
+![Figura](./assets/ssp/ssp-7.png "Figura")
 ###### Testar autenticação com a federação
 
 Para testar se a relação de confiança entre o SAML SP do proxy e a federação foi realizada com sucesso é possível realizar a autenticação usando um IdP da federação. Para isso execute as seguintes etapas.
@@ -577,10 +586,14 @@ Para testar se a relação de confiança entre o SAML SP do proxy e a federaçã
 
 1. Acesse a página de admin do SSP via navegador através da URL **https://service.example.com/admin**, substituindo o FQDN pelo do servidor utilizado. Digite as credenciais.
 2. Clique na aba test e escola a fonte de autenticação default-sp.
-3. O navegador será redirecionado para o serviço de descoberta (DS) ou um EDS, conforme configurado. Selecione a instituição que deseja se autenticar. 
-4. Após a seleção da instituição, o navegador será redirecionado para a página de login do IdP. Informe as credenciais do usuário e clique no botão de Login.
-5. Em alguns IdPs está configurado uma página chamada de tela de consentimento, em que são informados quais atributos estão sendo liberados para o SP. Clique para aceitar e o navegador será redirecionado para a página do SP Exemplo do SimpleSAMLphp.
+![Figura](./assets/ssp/ssp-8.png "Figura")
 
+3. O navegador será redirecionado para o serviço de descoberta (DS) ou um EDS, conforme configurado. Selecione a instituição que deseja se autenticar.
+![Figura](./assets/ssp/ssp-9.png "Figura") 
+4. Após a seleção da instituição, o navegador será redirecionado para a página de login do IdP. Informe as credenciais do usuário e clique no botão de Login.
+![Figura](./assets/ssp/ssp-10.png "Figura") 
+5. Em alguns IdPs está configurado uma página chamada de tela de consentimento, em que são informados quais atributos estão sendo liberados para o SP. Clique para aceitar e o navegador será redirecionado para a página do SP Exemplo do SimpleSAMLphp.
+![Figura](./assets/ssp/ssp-11.png "Figura") 
 
 
 ##### Metadado do Provedor de Serviço
@@ -606,12 +619,15 @@ Os metadados dos provedores de serviço que utilizarão o proxy para integraçã
 1. De posse do metadado do SP, acesse a página de admin do SSP via navegador através da URL **https://service.example.com/admin**, substituindo o FQDN pelo do servidor utilizado. Digite as credenciais.
 
 2. Clique na aba Federação e no link Conversor de XML para metadata do SimpleSAMLphp.
+![Figura](./assets/ssp/ssp-12.png "Figura") 
 
-3. Na página seguinte (Parser Metadata) carregue o arquivo XML clicando em or select a file ou inserindo o conteúdo do arquivo XML no espaço destinado. Clique no botão Parse.
+4. Na página seguinte (Parser Metadata) carregue o arquivo XML clicando em or select a file ou inserindo o conteúdo do arquivo XML no espaço destinado. Clique no botão Parse.
+![Figura](./assets/ssp/ssp-13.png "Figura") 
 
-4. A página será recarregada e apresentará o arquivo convertido para o formato de metadado do SimpleSAMLphp. Copie o conteúdo clicando no botão da área denominada "saml20-sp-remote".
+5. A página será recarregada e apresentará o arquivo convertido para o formato de metadado do SimpleSAMLphp. Copie o conteúdo clicando no botão da área denominada "saml20-sp-remote".
+![Figura](./assets/ssp/ssp-14.png "Figura") 
 
-5. Gere o arquivo php a partir do arquivo .dist em **/var/simplesamlphp/metadata/saml20-sp-remote.php.dist** com:
+6. Gere o arquivo php a partir do arquivo .dist em **/var/simplesamlphp/metadata/saml20-sp-remote.php.dist** com:
 
    `sudo cp /var/simplesamlphp/metadata/saml20-sp-remote.php.dist /var/simplesamlphp/metadata/saml20-sp-remote.php`
 
@@ -622,3 +638,5 @@ Os metadados dos provedores de serviço que utilizarão o proxy para integraçã
 Após a relação de confiança ser estabelecida é possível efetuar o teste de autenticação acessando a URL do provedor de serviço. Ao clicar no botão para login no serviço o navegador será redirecionado para o Serviço de descoberta da Federação e o processo continuará conforme apresentado.
 
 O teste de autenticação consiste em verificar no provedor de serviço, a presença de um idp caracterizado como SimpleSAMLphp, este IDP realizará o redirecionamento para o serviço de descoberta.
+
+![Figura](./assets/ssp/ssp-15.png "Figura") 
