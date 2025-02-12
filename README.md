@@ -1,17 +1,88 @@
 # Proxies em Ambientes de Gerenciamento de Identidades: Estudo de Casos e Avaliação Prática
 
-Este repositório contém as documentações dos casos de usos apresentados no artigo.
+Este repositório contém as documentações e orientações do ambiente de degustação e dos proxies mencionados no artigo **Proxies em Ambientes de Gerenciamento de Identidades: Estudo de Casos e Avaliação Prática**.  
 
-O repositório contém os seguintes arquivos e diretórios:
+## 🎯 Ambiente de Degustação
 
-* **Instalação Shibboleth 5:** Guia de instalação para um Shibboleth 5. Este deve ser o primeiro guia a ser consultado.
+Para acessar o ambiente de degustação:
 
-* **Configuração do Azure com Shibboleth 5:** Guia geral de configuração do Azure considerando instalação do Shibboleth 5.
-* **Guia de Instalação e Configuração do SimpleSAMLphp como proxy SAML:** Guia de instalação para o SimpleSAMLphp (SSP).  Para seguir este guia, considere o diretório abaixo:
-  * **simplesamlphp-config**: Contém um exemplo de Docker para a aplicação SimpleSAMLphp. Para o funcionamento adequado, os certificados do Apache devem estar dentro de `simplesamlphp-config/certs-apache`. Além disso, para executar o Docker, é necessário instalar o SSP conforme descrito no guia acima.
+1️⃣ Acesse: [🔗 keycloak.gidlab.rnp.br](https://keycloak.gidlab.rnp.br)
+
+2️⃣ Clique em **"Administration Console"**
+
+3️⃣ Insira as credenciais:
+
+- **Usuário:** `admin`
+- **Senha:** `gidlab`
+  4️⃣ No canto superior esquerdo, troque o **REALM** de `master` para `SBRC2025`
+  5️⃣ Vá até **Clients**
+  6️⃣ Clique na **Home URL** da conta
+  7️⃣ Clique em **Sign in** (canto superior direito)
+  8️⃣ Escolha o proxy desejado em **"Or sign in with"**
+
+**Contas para utilização dos IdP3 e IdP4**
+
+- **Usuário:** `aluno`
+- **Senha:** `aluno@idpNUMERO`
+
+**Conta para utilização do Entra ID**
+
+* **Usuário:** alunos.gidlab@uemgoutlookcom.onmicrosoft.com
+* **Senha:** Suku466662 
+
+Exemplo de fluxo:
+
+![FLuxo](./fluxo.png)
+
+---
+
+## PROXIES
+
+### 🔹Shibboleth e Microsoft Entra ID
+
+Para instalação siga os passos abaixo nesta ordem:   
+
+1️⃣ [**Instalação do Shibboleth 5**](Instalação Shibboleth 5.md)  
+
+2️⃣[**Configuração do Azure com Shibboleth 5**](Configuração do Azure com Shibboleth 5.md)
+
+---
+
+### 🔹 SimpleSAMLphp  
+
+Para instalação:
+
+1️⃣ Siga [Guia de Instalação e Configuração do SimpleSAMLphp como proxy SAML](Guia de Instalação e Configuração do SimpleSAMLphp como proxy SAML.md).   
+
+2️⃣ Após a instalação, edite o arquivo:     
+
+- `simplesamlphp-config/default-ssl.conf`
+
+3️⃣ Crie o diretório **certs-apache** e faça o build do Docker:
+
+```
+docker build .
+```
+
+4️⃣ Suba o container com:
+
+```
+docker compose up
+```
+
+---
+
+### 🔹SATOSA
+
+Para instalação:
+
+1️⃣ Siga [Guia Instalação Satosa](Guia Instalação Satosa.md).
+2️⃣ Após a instalação, suba o Docker disponível em `satosa-docker/`.
 
 
 
-## Instruções gerais
+## Keycloak
 
-Cada guia deste repositório contém exemplos de execução e as dependências necessárias para o funcionamento das ferramentas.
+Para instalação:
+
+1️⃣ Siga [Guia Instalação Keycloak](Guia Instalação Keycloak.md).
