@@ -77,6 +77,7 @@ docker compose up
 Para instalação:
 
 1️⃣ Siga [Guia Instalação Satosa](Guia Instalação Satosa.md).
+
 2️⃣ Após a instalação, suba o Docker disponível em `satosa-docker/`.
 
 
