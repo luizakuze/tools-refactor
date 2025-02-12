@@ -6,7 +6,7 @@ Este repositório contém as documentações e orientações do ambiente de degu
 
 Para acessar o ambiente de degustação:
 
-1️⃣ Acesse: [🔗 keycloak.gidlab.rnp.br](https://keycloak.gidlab.rnp.br)
+<!--1️⃣ Acesse: [🔗 keycloak.gidlab.rnp.br](https://keycloak.gidlab.rnp.br)
 
 2️⃣ Clique em **"Administration Console"**
 
@@ -23,7 +23,25 @@ Para acessar o ambiente de degustação:
 **Contas para utilização dos IdP3 e IdP4**
 
 - **Usuário:** `aluno`
-- **Senha:** `aluno@idpNUMERO`
+- **Senha:** `aluno@idpNUMERO` -->
+1️⃣ Acesse: [🔗 keycloak.gidlab.rnp.br/realms/SBRC2025/account/#/](https://keycloak.gidlab.rnp.br/realms/SBRC2025/account/#/)
+
+2️⃣ No canto superior direito da página, clique em 'Sign in'
+
+3️⃣ Escolha o proxy desejado em **"Or sign in with"**
+
+3️⃣ Caso escolha o SATOSA ou o SSPHP, será redirecionado para um serviço de descoberta onde deverá escolher um IdP para autenticação. Os IdPs disponíveis para teste são: IdP3 e IdP4
+
+**Contas para utilização do IdP3**
+
+- **Usuário:** `aluno`
+- **Senha:** `aluno@idp3
+
+**Contas para utilização do IdP4**
+
+- **Usuário:** `aluno`
+- **Senha:** `aluno@idp4
+
 
 **Conta para utilização do Entra ID**
 
