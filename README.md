@@ -12,8 +12,7 @@ Para acessar o ambiente de degustação:
 
 3️⃣ Insira as credenciais:
 
-- **Usuário:** `admin`
-- **Senha:** `gidlab`
+
   4️⃣ No canto superior esquerdo, troque o **REALM** de `master` para `SBRC2025`
   5️⃣ Vá até **Clients**
   6️⃣ Clique na **Home URL** da conta
