@@ -52,7 +52,7 @@ Para instalação siga os passos abaixo nesta ordem:
 
 Para instalação:
 
-1️⃣ Siga [Guia de Instalação e Configuração do SimpleSAMLphp como proxy SAML](Guia de Instalação e Configuração do SimpleSAMLphp como proxy SAML.md).   
+1️⃣ Siga [**Guia de Instalação e Configuração do SimpleSAMLphp como proxy SAML**](Guia de Instalação e Configuração do SimpleSAMLphp como proxy SAML.md).   
 
 2️⃣ Após a instalação, edite o arquivo:     
 
@@ -76,7 +76,7 @@ docker compose up
 
 Para instalação:
 
-1️⃣ Siga [Guia Instalação Satosa](Guia Instalação Satosa.md).
+1️⃣ Siga [**Guia Instalação Satosa**](Guia Instalação Satosa.md).
 
 2️⃣ Após a instalação, suba o Docker disponível em `satosa-docker/`.
 
@@ -86,4 +86,4 @@ Para instalação:
 
 Para instalação:
 
-1️⃣ Siga [Guia Instalação Keycloak](Guia Instalação Keycloak.md).
+1️⃣ Siga [**Guia Instalação Keycloak**](Guia Instalação Keycloak.md).
