@@ -6,7 +6,7 @@ Este repositório contém as documentações e orientações do ambiente de degu
 
 Para acessar o ambiente de degustação:
 
-<!--1️⃣ Acesse: [🔗 keycloak.gidlab.rnp.br](https://keycloak.gidlab.rnp.br)
+1️⃣ Acesse: [🔗 keycloak.gidlab.rnp.br](https://keycloak.gidlab.rnp.br)
 
 2️⃣ Clique em **"Administration Console"**
 
@@ -34,12 +34,12 @@ Para acessar o ambiente de degustação:
 **Contas para utilização do IdP3**
 
 - **Usuário:** `aluno`
-- **Senha:** `aluno@idp3
+- **Senha:** `aluno@idp3`
 
 **Contas para utilização do IdP4**
 
 - **Usuário:** `aluno`
-- **Senha:** `aluno@idp4
+- **Senha:** `aluno@idp4`
 
 
 **Conta para utilização do Entra ID**
@@ -53,7 +53,7 @@ Exemplo de fluxo:
 
 ---
 
-## PROXIES
+## Configurando sua própria instância de *Proxies*
 
 ### 🔹Shibboleth e Microsoft Entra ID
 
@@ -95,12 +95,12 @@ Para instalação:
 
 1️⃣ Siga [**Guia Instalação Satosa**](Guia Instalação Satosa.md).
 
-2️⃣ Após a instalação, suba o Docker disponível em `satosa-docker/`.
 
 
-
-## Keycloak
+## Configurando seu próprio ambiente de degustação
 
 Para instalação:
 
 1️⃣ Siga [**Guia Instalação Keycloak**](Guia Instalação Keycloak.md).
+
+2️⃣ Realize as relações de confiança para o *proxy* desejado, seguindo os passos de [**Guia Relação de Confiança**](Guia Relação de Confiança.md).
