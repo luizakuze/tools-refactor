@@ -93,8 +93,7 @@ docker compose up
 
 Para instalação:
 
-1️⃣ Siga [**Guia Instalação Satosa**](Guia Instalação Satosa.md).
-
+1️⃣ Siga [**Guia Instalação Satosa**](Guia_Instalação_Satosa.md).
 
 
 ## Configurando seu próprio ambiente de degustação
