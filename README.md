@@ -61,7 +61,7 @@ Para instalação siga os passos abaixo nesta ordem:
 
 1️⃣ [**Instalação do Shibboleth 5**](Instalação Shibboleth 5.md)  
 
-2️⃣[**Configuração do Azure com Shibboleth 5**](Configuração do Azure com Shibboleth 5.md)
+2️⃣[**Configuração do Azure com Shibboleth 5**](Configuração_do_Azure_com_Shibboleth_5.md)
 
 ---
 
@@ -69,7 +69,7 @@ Para instalação siga os passos abaixo nesta ordem:
 
 Para instalação:
 
-1️⃣ Siga [**Guia de Instalação e Configuração do SimpleSAMLphp como proxy SAML**](Guia de Instalação e Configuração do SimpleSAMLphp como proxy SAML.md).   
+1️⃣ Siga [**Guia de Instalação e Configuração do SimpleSAMLphp como proxy SAML**](Guia_de_Instalação_e_Configuração_do_SimpleSAMLphp_como_proxy_SAML.md).   
 
 2️⃣ Após a instalação, edite o arquivo:     
 
@@ -100,6 +100,6 @@ Para instalação:
 
 Para instalação:
 
-1️⃣ Siga [**Guia Instalação Keycloak**](Guia Instalação Keycloak.md).
+1️⃣ Siga [**Guia Instalação Keycloak**](Guia_Instalação_Keycloak.md).
 
-2️⃣ Realize as relações de confiança para o *proxy* desejado, seguindo os passos de [**Guia Relação de Confiança**](Guia Relação de Confiança.md).
+2️⃣ Realize as relações de confiança para o *proxy* desejado, seguindo os passos de [**Guia Relação de Confiança**](Guia_Relação_de_Confiança.md).
