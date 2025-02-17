@@ -1,7 +1,7 @@
 # SATOSA CONTAINER
 
 Repositório com diretórios e arquivos para implantar uma instância do Proxy `SATOSA` em contêiner com `docker-compose`.
-O contêiner utiliza uma imagem do `SATOSA` baseada no [código fonte original](https://github.com/IdentityPython/SATOSA) com algumas alterações.
+O contêiner utiliza uma imagem do `SATOSA` baseada no [código fonte original](https://github.com/IdentityPython/SATOSA/tree/v8.4.0) com algumas alterações.
 
 Este repositório possui também textos descrevendo algumas características do `SATOSA` e guias com as etapas para implantação contendo exemplos de configurações, conforme índice apresentado a seguir. Todo o conteúdo destes documentos foram baseados na wiki do repositório oficial do `SATOSA` e adaptados para o cenário desta instância.
 
@@ -31,10 +31,16 @@ As etapas a seguir descrevem a implantação de uma instância do `SATOSA` com a
 ### Configurações Iniciais
 
 1. Baixar o repositório e acessar o diretório raiz.
-   ```bash
-   $ git clone https://git.rnp.br/gidlab/satosa-docker.git
-   $ cd satosa-docker/
+
    ```
+   git clone -n --depth=1 --filter=tree:0 https://github.com/luandalmazo/tools.git
+   cd tools
+   git sparse-checkout set --no-cone satosa-docker
+   git checkout
+   cd satosa-docker/
+
+   ```
+
 2. Alterar as variáveis nos arquivos `.env` e `.satosa_env` para informações do servidor.
 3. Para habilitar o TLS no próprio Gunicorn, presente na imagem docker, inserir arquivos (chave privada e certificado) no diretório `./volumes/`, com os nomes `https.key` e `https.crt`.
 4. Alterar as informações do frontend (IdP do Proxy) do arquivo `./volumes/plugins/frontends/saml2_frontend_gidlab.yaml.example` renomeando para `saml2_frontend.yaml`. Atenção principal a propriedade `metadata` dentro da chave `idp_config`. Aqui devem ser informados os metadados dos Provedores de Serviços (SPs) que utilizarão o proxy para se comunicar com a federação.
