@@ -1,3 +1,0 @@
-module: satosa.backends.reflector.ReflectorBackend
-name: Reflector
-config:

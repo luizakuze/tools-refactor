@@ -13,8 +13,8 @@ SCHAC = 'urn:oid:1.3.6.1.4.1.25178.1.2.'
 SIS = 'urn:oid:1.2.752.194.10.2.'
 UMICH = 'urn:oid:1.3.6.1.4.1.250.1.57.'
 OPENOSI_OID = 'urn:oid:1.3.6.1.4.1.27630.2.1.1.' #openosi-0.82.schema http://www.openosi.org/osi/display/ldap/Home
-BREDUPERSON_OID_1 = 'urn:oid:1.3.6.1.4.1.15996.100.1.1.1.' # from rnp brPersonCPF
-BREDUPERSON_OID_2 = 'urn:oid:1.3.6.1.4.1.15996.100.1.1.2.' # from rnp brEduAffiliationType
+BREDUPERSON_OID_1 = 'urn:oid:1.3.6.1.4.1.15996.100.1.1.1.' # from rnp brPersonCPF and brPersonPassport
+BREDUPERSON_OID_2 = 'urn:oid:1.3.6.1.4.1.15996.100.1.1.2.' # from rnp brEduAffiliationType brEntranceDate brExitDate
 LDAPELEMENTS = 'urn:oid:1.3.6.1.4.1.1466.115.121.1.' # from ldap elementes http://www.oid-info.com/get/1.3.6.1.4.1.1466.115.121.1
 
 MAP = {
@@ -22,7 +22,10 @@ MAP = {
     'fro': {
         LDAPELEMENTS+'36': 'schacDateOfBirth',
         BREDUPERSON_OID_1+'1': 'brPersonCPF',
+        BREDUPERSON_OID_1+'2': 'brPersonPassport',
         BREDUPERSON_OID_2+'1': 'brEduAffiliationType',
+        BREDUPERSON_OID_2+'2': 'brEntranceDate',
+        BREDUPERSON_OID_2+'3': 'brExitDate',
         EDUCOURSE_OID+'1': 'eduCourseOffering',
         EDUCOURSE_OID+'2': 'eduCourseMember',
         EDUMEMBER1_OID+'1': 'isMemberOf',
@@ -171,7 +174,10 @@ MAP = {
         'associatedDomain': UCL_DIR_PILOT+'37',
         'authorityRevocationList': X500ATTR_OID+'38',
         'brEduAffiliationType': BREDUPERSON_OID_2+'1',
+        'brEntranceDate': BREDUPERSON_OID_2+'2',
+        'brExitDate': BREDUPERSON_OID_2+'3',
         'brPersonCPF': BREDUPERSON_OID_1+'1',
+        'brPersonPassport': BREDUPERSON_OID_1+'2',
         'businessCategory': X500ATTR_OID+'15',
         'c': X500ATTR_OID+'6',
         'cACertificate': X500ATTR_OID+'37',
