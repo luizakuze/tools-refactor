@@ -43,9 +43,18 @@ Para acessar o ambiente de degustação:
 
 
 **Conta para utilização do Entra ID**
+_Será necessário trocar a senha inicial e registrar um token no Microsoft Autenticator._
 
-* **Usuário:** alunos.gidlab@uemgoutlookcom.onmicrosoft.com
-* **Senha:** Suku466662 
+* **Usuário 1:** `sbrc2025-01@uemgoutlookcom.onmicrosoft.com` **Senha inicial:** `Suha702122`
+
+* **Usuário 2:** `sbrc2025-02@uemgoutlookcom.onmicrosoft.com` **Senha inicial:** `Jowa134074`
+
+* **Usuário 3:** `sbrc2025-03@uemgoutlookcom.onmicrosoft.com` **Senha inicial:** `Dupu340104`
+
+* **Usuário 4:** `sbrc2025-04@uemgoutlookcom.onmicrosoft.com` **Senha inicial:** `Foya273444`
+
+* **Usuário 5:** `sbrc2025-05@uemgoutlookcom.onmicrosoft.com` **Senha inicial:** `Rapa083085`
+
 
 Exemplo de fluxo:
 
