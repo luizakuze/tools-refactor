@@ -15,8 +15,4 @@ Acesse o diretório `tools/keycloak-docker` e configure as seguintes variáveis 
 
 ## ▶️ Executar o Keycloak  
 
-- Para iniciar o serviço, execute o comando abaixo:
-
-    ```sh
-    docker compose up
-    ```
+Para iniciar o serviço, execute o comando abaixo: ```docker compose up```

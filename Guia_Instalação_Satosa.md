@@ -138,7 +138,7 @@ Execute o comando abaixo para iniciar o serviço do proxy:
   docker compose up -d
   ```
 
-Após a inicialização do contêiner, o ideal é seguir diretamente para o procedimento de [🔗 Relação de confiança](#rela%C3%A7%C3%A3o-de-confian%C3%A7a), onde os metadados do SATOSA serão utilizados para configurar os demais participantes da federação.
+Após a inicialização do contêiner, o ideal é seguir diretamente para o procedimento de [🔗 Relação de confiança](#-relação-de-confiança), onde os metadados do SATOSA serão utilizados para configurar os demais participantes da federação.
 
 ## 🔗 Relação de confiança
 
@@ -165,7 +165,7 @@ Ao todos são quatro arquivos que precisam ser configurados:
 3. `volumes/attributemaps/saml_uri.py`
 4. `volumes/internal_attributes.yaml`
 
-Se houver necessidade de adicionar novos atributos seguir o procedimento em: [Adicionando novos atributos.](./docs/novosatributos.md)
+Se houver necessidade de adicionar novos atributos seguir o procedimento em: [Adicionando novos atributos.](satosa-docker/docs/novosatributos.md)
 
 ## 👥 Plugins Backend para Login Social
 

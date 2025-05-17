@@ -79,12 +79,12 @@ Esta seção apresenta tutoriais independentes para que você possa configurar d
 
 ### Shibboleth com Microsoft Entra ID
 
-1. [Instalação do Shibboleth 5](Instalação_Shibboleth_5.md)
-2. [Configuração do Azure com Shibboleth 5](Configuração_do_Azure_com_Shibboleth_5.md)
+1. [Guia de Instalação do Shibboleth 5](Instalação_Shibboleth_5.md)
+2. [Guia de Configuração do Azure com Shibboleth 5](Configuração_do_Azure_com_Shibboleth_5.md)
  
 ### SimpleSAMLphp
 
-1. [Guia de Instalação e Configuração do SimpleSAMLphp como proxy SAML](Guia_de_Instalação_e_Configuração_do_SimpleSAMLphp_como_proxy_SAML.md)
+1. [Guia de Instalação e Configuração do SimpleSAMLphp como proxy SAML](Guia_de_Instalação_e_Configuração_do_SimpleSAMLphp_como_proxy_SAML.md).
 2. Editar o arquivo `simplesamlphp-config/default-ssl.conf`.
 3. Criar o diretório `certs-apache`, acessar esse diretório e fazer o build:
 
@@ -108,6 +108,6 @@ Esta seção apresenta tutoriais independentes para que você possa configurar d
 ## 🧩 Configuração costumizada do ambiente de degustação
 
 1. [Guia de Instalação do Keycloak](Guia_Instalação_Keycloak.md)
-2. Configure a relação de confiança com o proxy desejado seguindo: [Guia de Relação de Confiança](Guia_Relação_de_Confiança.md)
+2. [Guia de Relação de Confiança](Guia_Relação_de_Confiança.md)
  
 > 💡 Para mais detalhes sobre os casos de uso e fluxos de autenticação com cada proxy, consulte o artigo completo em PDF incluso neste repositório.
