@@ -1,233 +1,192 @@
-# Guia de Configuração da Relação de Confiança
+# 🧩 Guia de Configuração da Relação de Confiança
 
-A etapa de relação de confiança deverá ser executada no Keycloak e nos ambientes que são Proxies Servers.
+A etapa de relação de confiança deverá ser executada no **Keycloak** e nos ambientes que são **Proxies Servers**.
 
-## Shibboleth IdP com EntraId IDP:
+Acesse as configurações do proxy que deseja testar:
+- [Shibboleth IdP](#-shibboleth-idp-com-entraid)
+- [SimpleSAMLphp](#-simplesamlphp)
+- [SATOSA](#-satosa)
+## 📌 Shibboleth IdP com EntraId
 
-Abrir o painel `Administration Console` do Keycloak;
+### 🔐 Keycloak
 
-Autenticar com usuário admin;
+* Acessar o `Administration Console`;
+* Autenticar com o usuário `admin`;
+* Criar ou acessar o realm: `SBRC2025`;
+* Ir em **Identity Providers** > **Add provider** > `SAML v2.0`;
 
-Criar novo realm: `SBRC2025`;
+Configurar:
 
-Se já criado, acessar o Realm "SBRC2025".
+* **Entity ID**:
 
+  ```
+  https://keycloak.gidlab.rnp.br/realms/SBRC2025/account/
+  ```
 
-Ir nas configurações de "Identity providers" do Keycloak;
+* **SAML entity descriptor**:
 
-Adicionar um novo como "SAML v2.0";
+  ```
+  https://dev.cafeexpresso.rnp.br/idp/shibboleth
+  ```
 
-Selecionar os nomes: Alias, Display Name.
+* Clicar em **Add**;
 
-Definir o "Service provider entity ID" com:
-`https://keycloak.gidlab.rnp.br/realms/SBRC2025/account/`
+* Alterar para:
 
-Em `SAML entity descriptor` colocar o endereços onde se encontra o metadado do IdP que deseja adicionar:
-`https://dev.cafeexpresso.rnp.br/idp/shibboleth`
+  * `NameID Format`: `Persistent`
+  * `Principal Type`: `Subject NameID`
+  * Ativar:
 
-Aguardar carregar todo o metadado. E clicar em "Add".
- 
-Voltar em "Identity providers" e selecionar o item criado.
+    ```
+    Allow create
+    HTTP-POST binding response
+    HTTP-POST binding for AuthnRequest
+    HTTP-POST binding logout
+    Want AuthnRequests signed
+    Want Assertions signed
+    Want Assertions encrypted
+    ```
 
-Trocar o "NameID policy format" para `Persistent`.
+* Clicar em **Save**.
 
-Manter "Principal type" em `Subject NameID`.
+### ↔️ Mapeamento (Mappers)
 
-Habilitar os seguintes itens:
+| Name     | Sync mode | Mapper type        | Friendly Name | User Attribute |
+| -------- | --------- | ------------------ | ------------- | -------------- |
+| Name     | Import    | Attribute Importer | givenName     | firstName      |
+| Mail     | Import    | Attribute Importer | mail          | email          |
+| LastName | Import    | Attribute Importer | sn            | lastName       |
 
-```
-Allow create
-HTTP-POST binding response
-HTTP-POST binding for AuthnRequest
-HTTP-POST binding logout
-Want AuthnRequests signed
-   -Nos menus de escolha de algoritmos, poderá deixar os padrões já escolhidos.
-Want Assertions signed
-Want Assertions encrypted
-```
+### ⚙️ Configurar Shibboleth IdP
 
-E clicar em "Save".
+1. Editar `conf/metadata-providers.xml`:
 
-Voltar em "Identity providers" e selecionar o item criado. E entrar no menu superior "Mappers" para realizar o mapeamento de atributos.
-Clicar em "Add Mapper" para definir os seguintes itens:
-| **Name** | **Sync mode override** |   **Mapper type**  | **Friendly Name** | **User Attribute Name** |
-|:--------:|:----------------------:|:------------------:|:-----------------:|:-----------------------:|
-|   Name   |         Import         | Attribute Importer |     givenName     |        firstName        |
-|   Mail   |         Import         | Attribute Importer |        mail       |          email          |
-| LastName |         Import         | Attribute Importer |         sn        |         lastName        |
+   ```xml
+   <MetadataProvider id="keycloak-metadata"
+       xsi:type="FilesystemMetadataProvider"
+       metadataFile="%{idp.home}/metadata/keycloak.xml" />
+   ```
+2. Salvar o metadata do Keycloak em `metadata/keycloak.xml`;
+3. Reiniciar:
 
-Ao finalizar, clicar em "Save".
-
-Em "Endpoints" "SAML 2.0 Service Provider Metadata" estará o metadado que deverá ser usado para realizar a "Relação de Confiança" no IdP Shibboleth.
-
-No Shibboleth IdP V5 já configurado com o EntraId, deverá editar o arquivo "conf/metadata-providers.xml", adicionando a seguinte diretiva antes da linha `</MetadataProvider>`:
-```
-<MetadataProvider id="keycloak-metadata"
-        xsi:type="FilesystemMetadataProvider"
-        metadataFile="%{idp.home}/metadata/keycloak.xml" />
-```
-
-Depois deverá criar o arquivo `metadata/keycloak.xml` com as informações baixadas em "Endpoints" "SAML 2.0 Service Provider Metadata".
-
-Após, deverá reiniciar o serviço Jetty do Shibboleth IdP:
-`sudo systemctl restart jetty.service`
-
-
-
-
----
-## SimpleSAMLphp:
-
-Abrir o painel `Administration Console` do Keycloak;
-
-Autenticar com usuário admin;
-
-Criar novo realm: `SBRC2025`;
-
-Se já criado, acessar o Realm "SBRC2025".
-
-
-Ir nas configurações de "Identity providers" do Keycloak;
-
-Adicionar um novo como "SAML v2.0";
-
-Selecionar os nomes: Alias, Display Name.
-
-Definir o "Service provider entity ID" com:
-`https://keycloak.gidlab.rnp.br/realms/SBRC2025/account/`
-
-Desabilitar a opção "Use entity descriptor".
-
-Baixar o metadado do SSPhp e dicionar usando `Import config from file`.
-
-Endereço do metadado: `https://proxyssp-dev.gidlab.rnp.br/simplesaml/module.php/saml/idp/metadata`
-
-No novo "Service provider entity ID" criado, adicione o endereço:
-`https://keycloak.gidlab.rnp.br/realms/SBRC2025/account/`
-
-
-Trocar o "NameID policy format" para `Persistent`.
-
-Manter "Principal type" em `Subject NameID`.
-
-Habilitar os seguintes itens:
-
-```
-Allow create
-HTTP-POST binding response
-HTTP-POST binding for AuthnRequest
-HTTP-POST binding logout
-Want AuthnRequests signed
-   -Nos menus de escolha de algoritmos, poderá deixar os padrões já escolhidos.
-Want Assertions signed
-Want Assertions encrypted
-```
-
-E clicar em "Save".
-
-Voltar em "Identity providers" e selecionar o item criado. E entrar no menu superior "Mappers" para realizar o mapeamento de atributos.
-Clicar em "Add Mapper" para definir os seguintes itens:
-
-| **Name** | **Sync mode override** |   **Mapper type**  |         **Attribute Name**        |    **Name Format**   | **User Attribute Name** |
-|:--------:|:----------------------:|:------------------:|:---------------------------------:|:--------------------:|:-----------------------:|
-|   Name   |         Import         | Attribute Importer |          urn:oid:2.5.4.42         | ATTRIBUTE_FORMAT_URI | firstName               |
-|   Mail   |         Import         | Attribute Importer | urn:oid:0.9.2342.19200300.100.1.3 | ATTRIBUTE_FORMAT_URI | email                   |
-| LastName |         Import         | Attribute Importer |          urn:oid:2.5.4.4          | ATTRIBUTE_FORMAT_URI | lastName                |
-
-Ao finalizar, clicar em "Save".
-
-
-Para configurar o *proxy* utilizando **SimpleSAMLphp**, siga os passos abaixo:
-
-1. Acesse a interface administrativa do SimpleSAMLphp:  
-
-**https://FQDN_SIMPLESAMLPHP/simplesaml/module.php/admin/federation**
-
-2. Vá até **XML to SimpleSAMLphp metadata converter**.  
-3. Copie o metadado do Keycloak, disponível geralmente em:  
-
-**https://FQDN_KEYCLOAK/realms/NAME/broker/NAME/endpoint/descriptor**
-
-4. Cole o metadado copiado no conversor e gere o formato correto.  
-5. Copie o metadado formatado e cole no arquivo de configuração:  
-
-```
-/var/simplesamlphp/metadata/saml20-sp-remote.php
-```
-
-
+   ```
+   sudo systemctl restart jetty.service
+   ```
 
 ---
 
-## SATOSA:
+## 📌 SimpleSAMLphp
 
-Abrir o painel `Administration Console` do Keycloak;
+### 🔐 Keycloak
 
-Autenticar com usuário admin;
+* Realm: `SBRC2025`;
+* Identity Provider: `SAML v2.0`;
+* Desmarcar: `Use entity descriptor`;
+* Importar metadata:
 
-Criar novo realm: `SBRC2025`;
+  ```
+  https://proxyssp-dev.gidlab.rnp.br/simplesaml/module.php/saml/idp/metadata
+  ```
+* Entity ID:
 
-Se já criado, acessar o Realm "SBRC2025".
+  ```
+  https://keycloak.gidlab.rnp.br/realms/SBRC2025/account/
+  ```
+* Alterar para:
 
+  * `NameID Format`: `Persistent`
+  * `Principal Type`: `Subject NameID`
+  * Ativar:
 
-Ir nas configurações de "Identity providers" do Keycloak;
+    ```
+    Allow create
+    HTTP-POST binding response
+    HTTP-POST binding for AuthnRequest
+    HTTP-POST binding logout
+    Want AuthnRequests signed
+    Want Assertions signed
+    Want Assertions encrypted
+    ```
+* Clicar em **Save**.
 
-Ir nas configurações de "Identity providers";
+### ↔️ Mapeamento (Mappers)
 
-Adicionar um novo como "SAML v2.0";
+| Name     | Sync mode | Mapper type        | Attribute Name                     | Name Format            | User Attribute |
+| -------- | --------- | ------------------ | ---------------------------------- | ---------------------- | -------------- |
+| Name     | Import    | Attribute Importer | urn\:oid:2.5.4.42                  | ATTRIBUTE\_FORMAT\_URI | firstName      |
+| Mail     | Import    | Attribute Importer | urn\:oid:0.9.2342.19200300.100.1.3 | ATTRIBUTE\_FORMAT\_URI | email          |
+| LastName | Import    | Attribute Importer | urn\:oid:2.5.4.4                   | ATTRIBUTE\_FORMAT\_URI | lastName       |
 
-Selecionar os nomes: Alias, Display Name.
+### ⚙️ Configurar SSPHP
 
-Definir o "Service provider entity ID" com:
-`https://keycloak.gidlab.rnp.br/realms/SBRC2025/account/`
+1. Acessar: `/simplesaml/module.php/admin/federation`;
+2. Usar: `XML to SimpleSAMLphp metadata converter`;
+3. Colar metadado de:
 
-Em "SAML entity descriptor" colocar o endereços onde se encontra o metadado do IdP que deseja adicionar:
-`https://proxy.gidlab.rnp.br/Saml2IDP/proxy.xml`
+   ```
+   https://FQDN_KEYCLOAK/realms/NAME/broker/NAME/endpoint/descriptor
+   ```
+4. Gerar conversão e salvar em:
 
-Aguardar carregar todo o metadado. E clicar em "Add".
- 
-Voltar em "Identity providers" e selecionar o item criado.
+   ```
+   /var/simplesamlphp/metadata/saml20-sp-remote.php
+   ```
 
-Trocar o "NameID policy format" para `Persistent`.
+---
 
-Manter "Principal type" em `Subject NameID`.
+## 📌 SATOSA
 
-Habilitar os seguintes itens:
+### 🔐 Keycloak
 
-```
-Allow create
-HTTP-POST binding response
-HTTP-POST binding for AuthnRequest
-HTTP-POST binding logout
-Want AuthnRequests signed
-   -Nos menus de escolha de algoritmos, poderá deixar os padrões já escolhidos.
-Want Assertions signed
-Want Assertions encrypted
-```
+* Realm: `SBRC2025`;
+* Identity Provider: `SAML v2.0`;
+* Entity ID:
 
-E clicar em "Save".
+  ```
+  https://keycloak.gidlab.rnp.br/realms/SBRC2025/account/
+  ```
+* Metadata (SAML entity descriptor):
 
-Voltar em "Identity providers" e selecionar o item criado. E entrar no menu superior "Mappers" para realizar o mapeamento de atributos.
-Clicar em "Add Mapper" para definir os seguintes itens:
+  ```
+  https://proxy.gidlab.rnp.br/Saml2IDP/proxy.xml
+  ```
+* Alterar:
 
-| **Name** | **Sync mode override** |   **Mapper type**  | **Friendly Name** | **User Attribute Name** |
-|:--------:|:----------------------:|:------------------:|:-----------------:|:-----------------------:|
-|   Name   |         Import         | Attribute Importer |     givenName     |        firstName        |
-|   Mail   |         Import         | Attribute Importer |        mail       |          email          |
-| LastName |         Import         | Attribute Importer |         sn        |         lastName        |
+  * `NameID Format`: `Persistent`
+  * `Principal Type`: `Subject NameID`
+  * Ativar:
 
-Ao finalizar, clicar em "Save".
+    ```
+    Allow create
+    HTTP-POST binding response
+    HTTP-POST binding for AuthnRequest
+    HTTP-POST binding logout
+    Want AuthnRequests signed
+    Want Assertions signed
+    Want Assertions encrypted
+    ```
+* Clicar em **Save**.
 
-Em "Endpoints" "SAML 2.0 Service Provider Metadata" estará o metadado que deverá ser usado para realizar a "Relação de Confiança" no Satosa.
+### ↔️ Mapeamento (Mappers)
 
-Com o Satosa já configurado com alguma federação, deverá editar o arquivo "volume/plugins/frontends/saml2_frontend.yaml", editando a diretiva de Metadado, por exemplo:
-```
-    metadata:
-      local:
-        - keycloak.xml
-```
+| Name     | Sync mode | Mapper type        | Friendly Name | User Attribute |
+| -------- | --------- | ------------------ | ------------- | -------------- |
+| Name     | Import    | Attribute Importer | givenName     | firstName      |
+| Mail     | Import    | Attribute Importer | mail          | email          |
+| LastName | Import    | Attribute Importer | sn            | lastName       |
 
-Depois deverá criar o arquivo `volume/keycloak.xml` com as informações baixadas em "Endpoints" "SAML 2.0 Service Provider Metadata".
+### ⚙️ Configurar SATOSA
 
-Após, deverá reiniciar o serviço Satosa:
-`docker compose restart`
+1. Editar: `volume/plugins/frontends/saml2_frontend.yaml`:
+
+   ```yaml
+   metadata:
+     local:
+       - keycloak.xml
+   ```
+2. Salvar metadado do Keycloak em `volume/keycloak.xml`;
+3. Reiniciar:
+
+   ```
+   docker compose restart
+   ```

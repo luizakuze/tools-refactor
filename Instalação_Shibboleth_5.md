@@ -1,5 +1,5 @@
-
-# Instalação IdP5
+<!-- omit in toc -->
+# Guia de Instalação IdP5
   Em setembro de 2023 foi lançada a versão 5 (cinco) do Shibboleth, que traz consigo atualizações de configurações e de dependências. Este guia de instalação tem como premissa detalhar as etapas necessárias para funcionamento dessa nova versão.  A abordagem recomendada para esse guia, é primeiro seguir o guia de instalação ofertado pelo Shibboleth disposto na seção “Links Importantes” e utilizar esse material aqui ofertado como facilitador de certas etapas no processo de configuração.
 Quanto às dependências, abaixo são listadas as principais modificações para essa nova versão:
 * Java 17
@@ -11,7 +11,15 @@ Quanto às dependências, abaixo são listadas as principais modificações para
 * [Guia de instalação Identity Provider 5](https://shibboleth.atlassian.net/wiki/spaces/IDP5/pages/3199500577/Installation)
 * [Instalação do Amazon Corretto 17 for Linux — Distribuição gratuita, multiplataforma e pronta para produção do OpenJDK](https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/generic-linux-install.html)
 
-  ​                                           
+<!-- omit in toc -->
+## 📚 Sumário 
+- [LDAP](#ldap)
+- [Instalação do Identity Provider](#instalação-do-identity-provider)
+- [Configurações do Jetty](#configurações-do-jetty)
+- [CONFIGURAÇÕES DO APACHE](#configurações-do-apache)
+- [Possíveis problemas e soluções](#possíveis-problemas-e-soluções)
+
+
 ## LDAP
 Para configuração da base LDAP, foram seguidos os passos descritos na [Wiki](https://ajuda.rnp.br/cafe/procedimentos-complementares/openldap/instalacao-do-openldap-com-esquema-breduperson-no-ubuntu-22.04). Para o presente caso, há necessidade de adaptação da seguinte diretiva:
 

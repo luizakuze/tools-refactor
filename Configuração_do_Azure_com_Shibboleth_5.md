@@ -1,12 +1,37 @@
-# Configuração do Azure com Shibboleth 5
-  De início, recomendamos fortemente que seja feito backup dos arquivos do IdPv5, pois a partir de agora alguns deles são alterados para configuração do Azure. Esse guia é fortemente baseado em: [SAML Proxying EntraID / Azure with the Shibboleth IdP](https://shibboleth.atlassian.net/wiki/spaces/KB/pages/2783936889/SAML+Proxying+EntraID+Azure+with+the+Shibboleth+IdP).
+# Guia de Configuração do Azure com Shibboleth 5
 
-  ## Trust Task 1
-  Atualizar o metadado do IdP adicionando o bloco **SPSSODescriptor** em:
+
+Este guia apresenta as instruções para integrar o Shibboleth IdP com o Microsoft Entra ID (Azure), utilizando o fluxo de autenticação SAML. A configuração ocorre em **duas etapas principais**:
+
+
+1. 🔐 **Trust Tasks** — Estabelece a confiança entre o IdP e o Entra ID, por meio do registro de metadados, certificados e configuração da aplicação no Azure.
+   - `Trust Task 1`: Adição do bloco SPSSODescriptor no metadado do IdP
+   - `Trust Task 2`: Criação da aplicação no Entra ID
+   - `Trust Task 3`: Registro local do IdP do Entra ID
+   - `Trust Task 4`: Configuração de atributos no Azure
+
+2. 🔁 **Proxy Tasks** — Ativa e configura o proxy SAML no IdP para funcionar com o Entra ID como IdP remoto.
+
+   - `Proxy Task 1`: Ativação do fluxo SAML no authn.properties
+   - `Proxy Task 2`: Filtro de atributos para os claims recebidos
+   - `Proxy Task 3`: Mapeamento e interpretação dos atributos do Azure
+   - `Proxy Task 4`: Normalização do username com base no atributo recebido
+   - `Proxy Task 5`: Definições de atributos e conectores no resolver
+
+> 📚 Este guia é baseado em: [SAML Proxying EntraID / Azure with the Shibboleth IdP](https://shibboleth.atlassian.net/wiki/spaces/KB/pages/2783936889/SAML+Proxying+EntraID+Azure+with+the+Shibboleth+IdP)
+
+**Importante:** Faça backup dos arquivos do IdPv5 antes de iniciar, pois diversos arquivos serão modificados.
+
+ 
+## 🔐 Trust Tasks
+
+###  🔐  Trust Task 1
+Atualizar o metadado do IdP adicionando o bloco **SPSSODescriptor** em:
+
 ```bash
-  /opt/shibboleth-idp/metadata/idp-metadata.xml
+/opt/shibboleth-idp/metadata/idp-metadata.xml
 ```
-  Lembre-se de adicionar ao bloco “Certificate” o certificado utilizado no metadado.
+  Lembre-se de adicionar ao bloco `“Certificate”` o certificado utilizado no metadado.
 ```xml
   <!-- New SP block START →
 
@@ -28,23 +53,24 @@
 
 <!-- New SP block END -->
 ```
-  ## Trust Task 2
-  Criar uma conta no EntraID e posteriormente, criar uma aplicação em:
+### 🔐 Trust Task 2
 
-  **choose Enterprise Applications > Create New Application > Non Gallery Application > Actually create one > select SAML Sign On > select SAML Sign  On settings**
+Criar uma conta no EntraID e posteriormente, criar uma aplicação em:
 
-Para criação utilize as seguintes informações:
-EntityID: https://FQDN/idp/shibboleth
-Assertion Consumer Service (ACS) URL: https://FQDN/idp/profile/Authn/SAML2/POST/SSO
+**`choose Enterprise Applications` > `Create New Application` > `Non Gallery Application` > `Actually create one` > `select SAML Sign On` > `select SAML Sign  On settings`**
 
-  ## Trust Task 3
-  Registre o IdP do EntraID localmente em: 
+- Para criação utilize as seguintes informações:
+	- EntityID: https://FQDN/idp/shibboleth
+	- Assertion Consumer Service (ACS) URL: https://FQDN/idp/profile/Authn/SAML2/POST/SSO
+
+### 🔐 Trust Task 3
+Registrar o IdP do EntraID localmente em: 
 ```bash
-  /opt/shibboleth-idp/conf/metadata-providers.xml
+/opt/shibboleth-idp/conf/metadata-providers.xml
 ```
   Da seguinte forma:
 ```xml
-  <MetadataProvider id="AzureAD-idp-metadata"
+<MetadataProvider id="AzureAD-idp-metadata"
     	xsi:type="FilesystemMetadataProvider"
     	metadataFile="%{idp.home}/metadata/AzureAD-idp.xml" />
 ```
@@ -217,30 +243,33 @@ Assertion Consumer Service (ACS) URL: https://FQDN/idp/profile/Authn/SAML2/POST/
   </IDPSSODescriptor>
 </EntityDescriptor>
   ```
-  ## Trust Task 4
-  Configure no **EntraID** a entrega de atributos para o IdP, na seção **User Attributes & Claims.**
+  ### 🔐 Trust Task 4
+  Configurar no **EntraID** a entrega de atributos para o IdP, na seção **User Attributes & Claims.**
 
-  Agora passaremos para as tarefas relacionadas a proxies.
 
-  ## Proxy Task 1
-  Mude o fluxo para SAML, em:
+## 🔁 Proxy Tasks
+
+### 🔁 Proxy Task 1
+Mudar o fluxo para SAML, em:
+
 ```bash
-  /opt/shibboleth-idp/conf/authn/authn.properties
+/opt/shibboleth-idp/conf/authn/authn.properties
 ```
-  Configurando da seguinte forma:
+Configurando da seguinte forma:
 ```bash
-  idp.authn.flows=SAML
+idp.authn.flows=SAML
 
 idp.authn.SAML.proxyEntityID = https://sts.windows.net/d0b2d7a2-9968-4e6f-af18-d0e442897c9e/
 ```
-  ## Proxy Task 2
-  Atualize o filtro de atributos em:
+
+### 🔁 Proxy Task 2
+Atualizar o filtro de atributos em:
 ```bash
-  /opt/shibboleth-idp/conf/attribute-filter.xml
+/opt/shibboleth-idp/conf/attribute-filter.xml
 ```
-  Para que fique da seguinte forma:
+Para ficar da seguinte forma:
 ```xml
-  [...]
+[...]
 
 <AttributeFilterPolicy id="FilterPolicyObject-Proxy-FromAzure-byIssuer-Type">
 	<PolicyRequirementRule xsi:type="Issuer" value="https://sts.windows.net/d0b2d7a2-9968-4e6f-af18-d0e442897c9e/" />
@@ -261,12 +290,12 @@ idp.authn.SAML.proxyEntityID = https://sts.windows.net/d0b2d7a2-9968-4e6f-af18-d
 </AttributeFilterPolicyGroup>
 
 ```
-## Proxy Task 3
-  Atualize o IdP para ele reconhecer os Claims do AzureID. Crie um arquivo **AzureClaims.xml** em:
-  ```bash
-  /opt/shibboleth-idp/attributes/azureClaims.xml
-  ```
-  O arquivo poderá ser semelhante ao visualizado abaixo:
+### 🔁 Proxy Task 3
+Atualizar o IdP para ele reconhecer os Claims do AzureID. Crie um arquivo **AzureClaims.xml** em:
+```bash
+/opt/shibboleth-idp/attributes/azureClaims.xml
+```
+O arquivo poderá ser semelhante ao visualizado abaixo:
 ```xml
   <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -416,34 +445,30 @@ idp.authn.SAML.proxyEntityID = https://sts.windows.net/d0b2d7a2-9968-4e6f-af18-d
 	</bean>
 	 
 </beans>
-
 ```
-  Atualize o arquivo presente em:
+Atualizar o arquivo presente em:
 ```bash
-  /opt/shibboleth-idp/attributes/default-rules.xml
-
+/opt/shibboleth-idp/attributes/default-rules.xml
 ```
-  Para incluir os novos claims:	
+Para incluir os novos claims:	
  ```xml
-  <import resource="azureClaims.xml" />
-
+<import resource="azureClaims.xml" />
  ```
-  E adicione um novo **DataConnector** em:
+E adicionar um novo **DataConnector** em:
   ```bash
   /opt/shibboleth-idp/conf/attribute-resolver.xml
-
   ```
   Da seguinte maneira:
 ```xml
   <DataConnector id="passthroughAttributes" xsi:type="Subject"
 	exportAttributes="azureName azureEmailaddress azureDisplayname azureGivenname azureSurname azureTenantid azureObjectidentifier azureIdentityprovider azureAuthnmethodsreferences" />
 ```
-  ## Proxy Task 4
-  Extração do username normalizado no fluxo SAML. Para isso, atualize o seguinte arquivo:
+  ### 🔁 Proxy Task 4
+  Realizar a extração do _username_ normalizado no fluxo SAML ao atualizar o seguinte arquivo:
 ```bash
-  /opt/shibboleth-idp/conf/c14n/subject-c14n.properties
+/opt/shibboleth-idp/conf/c14n/subject-c14n.properties
 ```
-  Adicionando as seguintes informações:
+Adicionar as seguintes informações:
 ```bash
   idp.c14n.attribute.attributesToResolve=  azureName,azureEmailaddress,azureDisplayname,azureGivenname,azureSurname,azureTenantid,azureObjectidentifier,azureIdentityprovider,azureAuthnmethodsreferences
 
@@ -463,14 +488,13 @@ idp.c14.saml.proxy.regex.for.principal=^(.+)@uemgoutlookcom\.onmicrosoft\.com$
 ```
   Após isso, em: 
 ```bash
-  /opt/shibboleth-idp/conf/c14n/subject-c14n.xml
-
+/opt/shibboleth-idp/conf/c14n/subject-c14n.xml
 ```
-  Descomente o seguinte bloco:
+  Descomentar o seguinte bloco:
 ```xml
       	<bean id="c14n/attribute" parent="shibboleth.PostLoginSubjectCanonicalizationFlow" />
 ```
-  E adicione a seguinte informação (antes da finalização do bloco **beans**):
+  E adicionar a seguinte informação (antes da finalização do bloco **beans**):
   ```xml
   [...]    
 <util:list id="shibboleth.c14n.attribute.Transforms">  
@@ -478,12 +502,12 @@ idp.c14.saml.proxy.regex.for.principal=^(.+)@uemgoutlookcom\.onmicrosoft\.com$
 	</util:list>
 </beans>
   ```
-  ## Proxy Task 5
-  Configure a passagem de atributos em:
+### 🔁 Proxy Task 5
+  Configurar a passagem de atributos em:
 ```bash
-  /opt/shibboleth-idp/conf/attribute-resolver.xml
+/opt/shibboleth-idp/conf/attribute-resolver.xml
 ```
-  Para que fique da seguinte forma:
+  Para ficar da seguinte forma:
 ```xml
   <!-- ========================================== -->
 	<!--  	Attribute Definitions             	-->
@@ -528,4 +552,5 @@ idp.c14.saml.proxy.regex.for.principal=^(.+)@uemgoutlookcom\.onmicrosoft\.com$
 	<DataConnector id="passthroughAttributes" xsi:type="Subject"
 	exportAttributes="azureName azureEmailaddress azureDisplayname azureGivenname azureSurname azureTenantid azureObjectidentifier azureIdentityprovider azureAuthnmethodsreferences" />
 ```
-  Agora basta testar seu IdP utilizando um SP que tenha relação de confiança com a entidade.
+  
+Pronto! Agora basta testar seu IdP utilizando um SP que tenha relação de confiança com a entidade.

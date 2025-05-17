@@ -1,20 +1,22 @@
 # Guia de Instalação do Keycloak
+Esse arquivo apresenta o passo a passo para instalação e execução do Keycloak.
 
-## Pré-requisitos
+## 📋 Pré-requisito
 
-Antes de iniciar, certifique-se de ter o **Docker** instalado e configurado corretamente em seu ambiente.  
+- [ ] Docker
 
-## Configuração  
+## ⚙️ Configuração  
 
-Acesse o diretório `keycloak-docker` e configure as seguintes variáveis de ambiente no arquivo `docker-compose.yml`. 
+Acesse o diretório `tools/keycloak-docker` e configure as seguintes variáveis de ambiente no arquivo `docker-compose.yml`: 
 
 - `KEYCLOAK_ADMIN_PASSWORD` → Defina uma senha segura para o administrador.  
 - `KC_HTTPS_CERTIFICATE_FILE` → Caminho para o arquivo do certificado **.cer**.  
 - `KC_HTTPS_CERTIFICATE_KEY_FILE` → Caminho para o arquivo da chave **.key**.  
 
-## Inicializando o Keycloak  
+## ▶️ Executar o Keycloak  
 
-Para subir o serviço, execute:  
+- Para iniciar o serviço, execute o comando abaixo:
 
-```sh
-docker compose up
+    ```sh
+    docker compose up
+    ```
