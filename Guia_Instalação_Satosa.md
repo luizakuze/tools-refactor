@@ -111,12 +111,13 @@ Mais informações sobre o SATOSA no arquivo referente à [Características e Ar
     2. Alterar `endpoints`
 
         ```yaml
-        assertion_consumer_service:
-              - - <base_url>/<name>/acs/post
-                - urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST
-            discovery_response:
-              - - <base_url>/<name>/disco
-                - urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol
+        endpoints:
+          assertion_consumer_service:
+                - - <base_url>/<name>/acs/post
+                  - urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST
+              discovery_response:
+                - - <base_url>/<name>/disco
+                  - urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol
         ```
 
 

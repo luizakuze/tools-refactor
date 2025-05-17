@@ -79,8 +79,8 @@ Esta seção apresenta tutoriais independentes para que você possa configurar d
 
 ### Shibboleth com Microsoft Entra ID
 
-1. [Guia de Instalação do Shibboleth 5](Instalação_Shibboleth_5.md)
-2. [Guia de Configuração do Azure com Shibboleth 5](Configuração_do_Azure_com_Shibboleth_5.md)
+1. [Guia de Instalação do Shibboleth 5](Guia_Instalação_Shibboleth_5.md)
+2. [Guia de Configuração do Azure com Shibboleth 5](Guia_Configuração_do_Azure_com_Shibboleth_5.md)
  
 ### SimpleSAMLphp
 
